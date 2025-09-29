@@ -21,7 +21,7 @@ jobs:
           CONFLUENCE_USER:  ${{ secrets.CONFLUENCE_USER }}
           CONFLUENCE_TOKEN: ${{ secrets.CONFLUENCE_TOKEN }}
           CONFLUENCE_BASE:  ${{ secrets.CONFLUENCE_BASE }}
-          CONFLUENCE_SPACE: ${{ secrets.CONFLUENCE_SPACE }}
+          CONFLUENCE_SPACES: ${{ secrets.CONFLUENCE_SPACES }}
         run: python scripts/pull_confluence.py
 
       - name: Commit & Push

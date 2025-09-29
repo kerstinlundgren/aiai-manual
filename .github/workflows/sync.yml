@@ -1,0 +1,28 @@
+name: Sync Confluence Manual
+on:
+  workflow_dispatch:      # gör att du kan klicka "Run workflow"
+  schedule:
+    - cron: "0 2 * * *"   # kör dagligen 02:00 UTC (~04:00 Sverige vintertid)
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: pip install requests
+      - name: Hämta sidor från Confluence
+        env:
+          CONFLUENCE_USER:  ${{ secrets.CONFLUENCE_USER }}
+          CONFLUENCE_TOKEN: ${{ secrets.CONFLUENCE_TOKEN }}
+          CONFLUENCE_BASE:  ${{ secrets.CONFLUENCE_BASE }}
+          CONFLUENCE_SPACE: ${{ secrets.CONFLUENCE_SPACE }}
+        run: python scripts/pull_confluence.py
+      - name: Commit & Push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add docs
+          git commit -m "Sync from Confluence" || echo "No changes"
+          git push

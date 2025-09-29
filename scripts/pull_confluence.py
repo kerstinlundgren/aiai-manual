@@ -8,11 +8,9 @@ TOKEN   = os.environ["CONFLUENCE_TOKEN"]
 out = pathlib.Path("docs")
 out.mkdir(exist_ok=True)
 
-def fetch_pages(space):
-    start, limit = 0, 100
+def fetch_all_pages(space):
+    start, limit = 0, 200   # 200 är max Confluence tillåter
     pages = []
-    sess = requests.Session()
-    sess.auth = (USER, TOKEN)
     while True:
         r = sess.get(
             f"{BASE}/rest/api/content",
@@ -20,16 +18,20 @@ def fetch_pages(space):
                 "spaceKey": space,
                 "limit": limit,
                 "start": start,
-                "expand": "body.export_view"
+                "expand": "body.export_view",
+                "type": "page"
             },
             headers={"Accept": "application/json"}
         )
         r.raise_for_status()
         data = r.json()
         results = data.get("results", [])
-        if not results: break
+        if not results:
+            break
         pages.extend(results)
-        if len(results) < limit: break
+        # använd 'start' från API-svaret om det finns
+        if not data.get("_links", {}).get("next"):
+            break
         start += limit
         time.sleep(0.2)
     return pages

@@ -8,6 +8,10 @@ TOKEN   = os.environ["CONFLUENCE_TOKEN"]
 out = pathlib.Path("docs")
 out.mkdir(exist_ok=True)
 
+sess = requests.Session()
+sess.auth = (USER, TOKEN)
+sess.headers.update({"Accept": "application/json"})
+
 def fetch_all_pages(space):
     start, limit = 0, 200   # 200 är max Confluence tillåter
     pages = []

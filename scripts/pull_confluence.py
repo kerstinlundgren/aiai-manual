@@ -39,7 +39,7 @@ def fetch_all_pages(space):
 index = ['<!doctype html><meta charset="utf-8"><title>Aiai manual</title><h1>Manual</h1><ul>']
 
 for space in SPACES:
-    pages = fetch_pages(space)
+    pages = fetch_all_pages(space)
     index.append(f"<h2>Space: {html.escape(space)}</h2><ul>")
     for p in pages:
         title = p.get("title", "Untitled")

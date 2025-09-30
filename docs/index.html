@@ -1,6 +1,19 @@
-<!doctype html><meta charset="utf-8"><title>Aiai manual</title>
+<!doctype html><html><head><meta charset="utf-8"><title>Aiai manual</title>
+<style>body{font-family:Arial,sans-serif;max-width:800px;margin:auto;} input{margin:0.5em 0;padding:0.5em;width:100%;} li{margin:0.2em 0;}</style>
+<script>
+function filterList(spaceId) {
+  let q = document.getElementById("search-" + spaceId).value.toLowerCase();
+  let items = document.querySelectorAll("#list-" + spaceId + " li");
+  items.forEach(li => {
+    li.style.display = li.textContent.toLowerCase().includes(q) ? "" : "none";
+  });
+<p><b>Total pages across all spaces: 91</b></p>
+}
+</script></head><body>
 <h1>Aiai manual</h1>
-<h2>Space: MR</h2><ul>
+<h2>Space: MR (12 pages)</h2>
+<input type="text" id="search-0" onkeyup="filterList('0')" placeholder="Search in MR...">
+<ul id='list-0'>
 <li><a href='MR-3737354242.html'>Schemakontroll – Kompenserande vila och jourkrav</a></li>
 <li><a href='MR-3688136728.html'>Digital närvarokvittens - reusable</a></li>
 <li><a href='MR-3600613406.html'>Schemamallar - reusable</a></li>
@@ -14,7 +27,9 @@
 <li><a href='MR-3425108546.html'>Manual reusable</a></li>
 <li><a href='MR-3425044322.html'>Status på arbetspass - reusable</a></li>
 </ul>
-<h2>Space: Ainstain</h2><ul>
+<h2>Space: Ainstain (79 pages)</h2>
+<input type="text" id="search-1" onkeyup="filterList('1')" placeholder="Search in Ainstain...">
+<ul id='list-1'>
 <li><a href='Ainstain-3779201100.html'>AI Widget anställningar</a></li>
 <li><a href='Ainstain-3779201066.html'>AI Se kollegors pass samt obemannade pass i webb och app</a></li>
 <li><a href='Ainstain-3779201017.html'>AI Önska pass i schemat</a></li>
@@ -95,3 +110,4 @@
 <li><a href='Ainstain-3779199000.html'>Innehåll</a></li>
 <li><a href='Ainstain-3778740819.html'>Ainstain</a></li>
 </ul>
+</body></html>

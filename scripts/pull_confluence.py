@@ -64,4 +64,18 @@ for space in SPACES:
         index_lines.append(f"<li><a href='{fname}'>{html.escape(title)}</a></li>")
         total_written += 1
         count += 1
-    index_lines.append("<_
+    index_lines.append("</ul>")
+    space_counts[space] = count
+
+# Skriv index.html
+with open(out/"index.html", "w", encoding="utf-8") as f:
+    f.write("\n".join(index_lines))
+
+# robots.txt för att tillåta crawlers
+with open(out/"robots.txt", "w", encoding="utf-8") as f:
+    f.write("User-agent: *\nAllow: /\n")
+
+# Logga summering
+for space, count in space_counts.items():
+    print(f"Space {space}: {count} pages")
+print(f"Total: {total_written} pages written to docs/")

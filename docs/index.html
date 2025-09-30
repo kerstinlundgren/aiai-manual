@@ -1,16 +1,14 @@
 <!doctype html><html><head><meta charset="utf-8"><title>Aiai manual</title>
 <style>body{font-family:Arial,sans-serif;max-width:800px;margin:auto;} input{margin:0.5em 0;padding:0.5em;width:100%;} li{margin:0.2em 0;}</style>
 <script>
-function filterList(spaceId) {
-  let q = document.getElementById("search-" + spaceId).value.toLowerCase();
-  let items = document.querySelectorAll("#list-" + spaceId + " li");
-  items.forEach(li => {
-    li.style.display = li.textContent.toLowerCase().includes(q) ? "" : "none";
-  });
-<p><b>Total pages across all spaces: 91</b></p>
+function filterList(spaceId){
+  let q=document.getElementById("search-"+spaceId).value.toLowerCase();
+  let items=document.querySelectorAll("#list-"+spaceId+" li");
+  items.forEach(li=>{ li.style.display = li.textContent.toLowerCase().includes(q) ? "" : "none"; });
 }
 </script></head><body>
 <h1>Aiai manual</h1>
+<p><b>Total pages across all spaces: 91</b></p>
 <h2>Space: MR (12 pages)</h2>
 <input type="text" id="search-0" onkeyup="filterList('0')" placeholder="Search in MR...">
 <ul id='list-0'>

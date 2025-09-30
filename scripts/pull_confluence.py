@@ -47,18 +47,33 @@ def write_page(space, content):
     return fname, title
 
 
+# HTML-head för index.html (med sökfunktion)
 index_lines = [
-    '<!doctype html><meta charset="utf-8"><title>Aiai manual</title>',
-    '<h1>Aiai manual</h1>'
+    '<!doctype html><html><head><meta charset="utf-8"><title>Aiai manual</title>',
+    '<style>body{font-family:Arial,sans-serif;max-width:800px;margin:auto;} input{margin:0.5em 0;padding:0.5em;width:100%;} li{margin:0.2em 0;}</style>',
+    '<script>',
+    'function filterList(spaceId) {',
+    '  let q = document.getElementById("search-" + spaceId).value.toLowerCase();',
+    '  let items = document.querySelectorAll("#list-" + spaceId + " li");',
+    '  items.forEach(li => {',
+    '    li.style.display = li.textContent.toLowerCase().includes(q) ? "" : "none";',
+    '  });',
+    '}',
+    '</script></head><body>',
+    '<h1>Aiai manual</h1>',
 ]
 
 total_written = 0
 space_counts = {}
 
-for space in SPACES:
-    index_lines.append(f"<h2>Space: {html.escape(space)}</h2><ul>")
+# Hämta alla spaces
+for idx, space in enumerate(SPACES):
     pages = fetch_all_pages(space)
     count = 0
+    space_id = f"{idx}"  # unikt id per space
+    index_lines.append(f"<h2>Space: {html.escape(space)} ({len(pages)} pages)</h2>")
+    index_lines.append(f'<input type="text" id="search-{space_id}" onkeyup="filterList(\'{space_id}\')" placeholder="Search in {html.escape(space)}...">')
+    index_lines.append(f"<ul id='list-{space_id}'>")
     for p in pages:
         fname, title = write_page(space, p)
         index_lines.append(f"<li><a href='{fname}'>{html.escape(title)}</a></li>")
@@ -66,6 +81,12 @@ for space in SPACES:
         count += 1
     index_lines.append("</ul>")
     space_counts[space] = count
+
+# Totalsiffra
+index_lines.insert(9, f"<p><b>Total pages across all spaces: {total_written}</b></p>")
+
+# Avsluta HTML
+index_lines.append("</body></html>")
 
 # Skriv index.html
 with open(out/"index.html", "w", encoding="utf-8") as f:

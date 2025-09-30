@@ -16,7 +16,6 @@ sess.headers.update({"Accept": "application/json"})
 def fetch_all_pages(space):
     """Hämtar alla sidor i ett space med paginering via _links.next"""
     results = []
-    # Första request
     url = f"{BASE}/rest/api/search?cql=space=\"{space}\" AND type=page&limit=200"
     while url:
         r = sess.get(url)
@@ -54,3 +53,15 @@ index_lines = [
 ]
 
 total_written = 0
+space_counts = {}
+
+for space in SPACES:
+    index_lines.append(f"<h2>Space: {html.escape(space)}</h2><ul>")
+    pages = fetch_all_pages(space)
+    count = 0
+    for p in pages:
+        fname, title = write_page(space, p)
+        index_lines.append(f"<li><a href='{fname}'>{html.escape(title)}</a></li>")
+        total_written += 1
+        count += 1
+    index_lines.append("<_
